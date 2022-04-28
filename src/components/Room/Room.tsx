@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { panOptions } from '../PanWrapper/panOptions';
 
@@ -10,6 +10,7 @@ const RoomContainer = styled.div`
   width:${panOptions.room.size.x}px;height:${panOptions.room.size.y}px;
   box-sizing: border-box;
   display:block;
+  background:${props => props.background};
 `
 
 // const Background = styled.div`
@@ -20,10 +21,21 @@ const RoomContainer = styled.div`
 // `
 
 export const Room:React.FC = ({children}) => {
+  const [background, setBackground] = useEffect(() => {
+    try {
+      const data = fetch(`https://api.eventyay.com/v1/events/350bf76b/video-stream`).then(res => res.json())
+      const bg = data['data']['attributes']['bg-img-url']
+      setBackground(bg)
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
+
   return (
-    <RoomContainer>
+    <RoomContainer background>
       {/* <Background /> */}
       {children}
     </RoomContainer>
   )
 }
+
