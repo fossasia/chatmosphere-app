@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { ReactNode } from "react"
 import styled from "styled-components"
 import { panOptions } from "../PanWrapper/panOptions"
 
@@ -10,7 +11,8 @@ const RoomContainer = styled.div<{ bg: string }>`
   height: ${panOptions.room.size.y}px;
   box-sizing: border-box;
   display: block;
-  background: ${(props) => (props.bg ? "url(props.bg)" : "brown")};
+  background: ${(props) =>
+    props.bg ? "no-repeat center/100% url(props.bg)" : "brown"};
 `
 
 // const Background = styled.div`
@@ -20,13 +22,18 @@ const RoomContainer = styled.div<{ bg: string }>`
 //   height:100%;
 // `
 
-export const Room: React.FC = ({ children }) => {
+interface Props {
+  children?: ReactNode,
+  identifier?: string
+}
+
+
+export const Room: React.FC<Props> = ({ children, identifier }) => {
   const [background, setBackground] = useState("")
   useEffect(() => {
     const getBg = async () => {
-      try {
         const data = await fetch(
-          `https://api.eventyay.com/v1/events/350bf76b/video-stream`,
+          `https://api.eventyay.com/v1/events/${identifier}/chatmosphere`,
           {
             headers: {
               Accept: "application/vnd.api+json",
@@ -37,11 +44,9 @@ export const Room: React.FC = ({ children }) => {
         const bg = data["data"]["attributes"]["bg-img-url"]
         console.log(bg)
         setBackground(bg)
-      } catch (err) {
-        console.error("Not able to fetch background", err)
-      }
     }
-    getBg()
+
+    getBg().catch(console.error)
   }, [])
 
   return (

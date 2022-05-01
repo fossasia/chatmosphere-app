@@ -2,7 +2,6 @@ import React from "react"
 import ConnectedStage from "../../addons/Stage/Stage"
 import { StageButton } from "../../addons/Stage/components/StageButton"
 import { ErrorHandler } from "../../components/common/Info/ErrorHandler"
-import { Info } from "../../components/common/Info/Info"
 import { Footer } from "../../components/Footer/Footer"
 import { JoinButton } from "../../components/Footer/JoinButton/JoinButton"
 import { MuteButton } from "../../components/Footer/MuteButton/MuteButton"
@@ -21,20 +20,16 @@ import { MoreTab } from "../../components/Footer/MoreTab/MoreTab"
 
 
 export const Session = () => {
+  const eventIdentifier = window.location.href.split('/').pop()?.split('-')[0]
+  console.log(eventIdentifier)
   return (
     <React.Fragment>
-      <Info>
-        Welcome to our Prototype
-        <br />
-        Please use <b>Chromium</b> or <b>Chrome</b> for now for a stable
-        Experience
-      </Info>
       <ErrorHandler />
       <Header></Header>
       <JitsiConnection />
       <LocalStoreLogic />
       <PanWrapper>
-        <Room>
+        <Room identifier={eventIdentifier}>
           <Users />
           <UserDragContainer>
             <Localuser audioRadius />

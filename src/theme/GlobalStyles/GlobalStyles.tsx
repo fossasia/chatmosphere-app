@@ -86,7 +86,6 @@ export const GlobalStyles = createGlobalStyle<{theme:ThemeType}>`
   }
   //inner Area
   .react-transform-element{
-    background-color: ${props => props.theme.bg.default};
     cursor:grab;
     display:inline-flex;
   }
