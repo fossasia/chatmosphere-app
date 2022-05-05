@@ -114,7 +114,6 @@ const warm = {
     dark:color.mono30
   },
   bg: {
-    default: color.mono95,
     inset: color.mono60,
     card: color.mono100,
   },
