@@ -11,8 +11,8 @@ const RoomContainer = styled.div<{ bg: string }>`
   height: ${panOptions.room.size.y}px;
   box-sizing: border-box;
   display: block;
-  background: ${(props) =>
-    props.bg ? "no-repeat center/100% url(props.bg)" : "brown"};
+  background-image: ${(props) =>
+    props.bg ? "url(props.bg)" : "none"};
 `
 
 // const Background = styled.div`
@@ -23,27 +23,25 @@ const RoomContainer = styled.div<{ bg: string }>`
 // `
 
 interface Props {
-  children?: ReactNode,
+  children?: ReactNode
   identifier?: string
 }
-
 
 export const Room: React.FC<Props> = ({ children, identifier }) => {
   const [background, setBackground] = useState("")
   useEffect(() => {
     const getBg = async () => {
-        const data = await fetch(
-          `https://api.eventyay.com/v1/events/${identifier}/chatmosphere`,
-          {
-            headers: {
-              Accept: "application/vnd.api+json",
-            },
+      const data = await fetch(
+        `https://api.eventyay.com/v1/events/${identifier}/chatmosphere`,
+        {
+          headers: {
+            Accept: "application/vnd.api+json",
           },
-        ).then((res) => res.json())
-        console.log(data)
-        const bg = data["data"]["attributes"]["bg-img-url"]
-        console.log(bg)
-        setBackground(bg)
+        },
+      ).then((res) => res.json())
+      const bg = data["data"]["attributes"]["bg-img-url"].toString()
+      console.log(bg)
+      setBackground(bg)
     }
 
     getBg().catch(console.error)
